@@ -2,12 +2,12 @@ import { Timeline } from "@/components/Timeline";
 import { YweetCard } from "@/components/YweetCard";
 
 type Yweet = {
-  id: number;
-  content: string;
-  user: {
-    username: string;
-    avatar: string;
-  };
+    id: number;
+    content: string;
+    user: {
+        username: string;
+        avatar: string;
+    };
 };
 
 type TimelineResponse = Yweet[];
@@ -17,23 +17,23 @@ type TimelineResponse = Yweet[];
  * docs/02_timeline.md を見ながら、ここで API から Yweet を取得して表示する
  */
 export default async function Home() {
-  const res = await fetch(
-    process.env.NEXT_PUBLIC_API_BASE_URL + "/v1/timelines/public",
-  );
+    const res = await fetch(
+        process.env.NEXT_PUBLIC_API_BASE_URL + "/v1/timelines/public",
+    );
 
-  const yweets = (await res.json()) as TimelineResponse;
-  console.log(yweets);
+    const yweets = (await res.json()) as TimelineResponse;
+    console.log(yweets);
 
-  return (
-    <Timeline>
-      {yweets.map((yweet) => (
-        <YweetCard
-          key={yweet.id}
-          username={yweet.user.username}
-          content={yweet.content}
-          avatarUrl={yweet.user.avatar}
-        />
-      ))}
-    </Timeline>
-  );
+    return (
+        <Timeline>
+            {yweets.map((yweet) => (
+                <YweetCard
+                    key={yweet.id}
+                    username={yweet.user.username}
+                    content={yweet.content}
+                    avatarUrl={yweet.user.avatar}
+                />
+            ))}
+        </Timeline>
+    );
 }
