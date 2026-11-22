@@ -1,6 +1,16 @@
 import { Timeline } from "@/components/Timeline";
-import { TimelineFeed } from "@/components/TimelineFeed";
-import type { Yweet } from "@/types/yweet";
+import { YweetCard } from "@/components/YweetCard";
+
+type Yweet = {
+    id: number;
+    content: string;
+    user: {
+        username: string;
+        avatar: string;
+    };
+};
+
+type TimelineResponse = Yweet[];
 
 /**
  * タイムライン（ホーム）
@@ -11,12 +21,19 @@ export default async function Home() {
         process.env.NEXT_PUBLIC_API_BASE_URL + "/v1/timelines/public",
     );
 
-    const yweets = (await res.json()) as Yweet[];
+    const yweets = (await res.json()) as TimelineResponse;
     console.log(yweets);
 
     return (
         <Timeline>
-            <TimelineFeed initialYweets={yweets} />
+            {yweets.map((yweet) => (
+                <YweetCard
+                    key={yweet.id}
+                    username={yweet.user.username}
+                    content={yweet.content}
+                    avatarUrl={yweet.user.avatar}
+                />
+            ))}
         </Timeline>
     );
 }
